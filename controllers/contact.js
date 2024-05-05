@@ -1,5 +1,9 @@
 import db from "../models/index.js";
-import { createContactSchema } from "../validations/contact.js";
+import {
+  createContactSchema,
+  singleContactSchema,
+  updateContactSchema,
+} from "../validations/contact.js";
 
 const contact = db.contact;
 
@@ -25,10 +29,49 @@ export const createContact = async (req, res, next) => {
   } catch (error) {}
 };
 
-export const listContacts = async (req, res, next) => {};
+export const listContacts = async (req, res, next) => {
+  try {
+    const allContacts = await contact.findAll();
+    return res.status(200).send({ allContacts });
+  } catch (error) {}
+};
 
-export const singleContact = async (req, res, next) => {};
+export const singleContact = async (req, res, next) => {
+  try {
+    const { contactId } = req.params;
+    await singleContactSchema.validate({ contactId }, { abortEarly: false });
+    const contactDetails = await contact.findAll({
+      where: { contactId },
+    });
+    return res.status(200).send({ contactDetails });
+  } catch (error) {}
+};
 
-export const updateContact = async (req, res, next) => {};
+export const updateContact = async (req, res, next) => {
+  const { contactId } = req.params;
+  const { firstName, lastName, phoneNumber } = req.body;
 
-export const deleteContact = async (req, res, next) => {};
+  await updateContactSchema.validate(
+    { contactId, firstName, lastName, phoneNumber },
+    { abortEarly: false }
+  );
+  const updateProps = { firstName, lastName, phoneNumber };
+  const updatedRecord = await contact.update(
+    { updateProps },
+    { where: { contactId } }
+  );
+  return res
+    .status(200)
+    .send({ updatedRecord, message: "Contact updated successfully" });
+};
+
+export const deleteContact = async (req, res, next) => {
+  try {
+    const { contactId } = req.params;
+    await singleContactSchema.validate({ contactId }, { abortEarly: false });
+    await contact.destroy({
+      where: { contactId },
+    });
+    return res.status(200).send({ message: "Contact deleted successfully" });
+  } catch (error) {}
+};
