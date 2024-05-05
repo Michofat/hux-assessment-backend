@@ -26,9 +26,9 @@ db.sequelize = sequelize;
 db.user = userModel(sequelize, DataTypes);
 db.contact = contactModel(sequelize, DataTypes);
 
-// db.sequelize.sync({ force: false }).then(() => {
-//   console.log("yes re-sync done!!");
-// });
+db.sequelize.sync({ force: false }).then(() => {
+  console.log("yes re-sync done!!");
+});
 
 sequelize
   .authenticate()
