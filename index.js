@@ -1,5 +1,4 @@
 import express from "express";
-import rateLimit from "express-rate-limit";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { errorHandler } from "./error/error.js";
@@ -19,10 +18,12 @@ dotenv.config();
 
 // Hello Route
 app.get("/", (req, res) => {
-  res.send("Hello Hux!");
+  res.send("Hello Hux Contact Manager!");
 });
 
 //error
 app.use(errorHandler);
 
-app.listen(8000, () => console.log(`Server is running on port 8000`));
+app.listen(process.env.PORT, () =>
+  console.log(`Server is running on port 8000`)
+);
