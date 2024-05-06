@@ -36,7 +36,7 @@ export const listContacts = async (req, res, next) => {
   } catch (error) {}
 };
 
-export const singleContact = async (req, res, next) => {
+export const contactDetails = async (req, res, next) => {
   try {
     const { contactId } = req.params;
     await singleContactSchema.validate({ contactId }, { abortEarly: false });

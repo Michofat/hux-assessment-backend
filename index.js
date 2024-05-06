@@ -3,6 +3,8 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { errorHandler } from "./error/error.js";
 import dotenv from "dotenv";
+import userRoutes from "./routes/user.js";
+import contactRoutes from "./routes/contact.js";
 
 const app = express();
 app.use(
@@ -14,9 +16,17 @@ app.use(
   })
 );
 
+http: app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 dotenv.config();
 
-// Hello Route
+//routes
+app.use("/api/v1", contactRoutes);
+app.use("/api/v1", userRoutes);
+
+// Home Route
 app.get("/", (req, res) => {
   res.send("Hello Hux Contact Manager!");
 });

@@ -10,7 +10,7 @@ export const userModel = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    password: {
+    hashedPassword: {
       type: DataTypes.STRING,
       allowNull: false,
     },

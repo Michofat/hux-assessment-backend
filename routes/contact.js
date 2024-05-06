@@ -1,14 +1,21 @@
 import express from "express";
+import {
+  contactDetails,
+  createContact,
+  deleteContact,
+  listContacts,
+  login,
+  logout,
+  updateContact,
+} from "../controllers/contact.js";
 
 const routes = express.Router({
   mergeParams: true,
 });
 
-routes.post("/login", login);
-routes.post("/logout", logout);
 routes.post("/contact", createContact);
-routes.get("/contact", listContacts);
-routes.get("/contact/:contactId", singleContact);
+routes.get("/contacts", listContacts);
+routes.get("/contact/:contactId", contactDetails);
 routes.patch("/contact/:contactId", updateContact);
 routes.delete("/contact/:contactId", deleteContact);
 
